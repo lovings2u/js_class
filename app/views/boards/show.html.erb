@@ -1,0 +1,12 @@
+<p>
+  <strong>Title:</strong>
+  <%= @board.title %>
+</p>
+
+<p>
+  <strong>Contents:</strong>
+  <%= @board.contents %>
+</p>
+
+<%= link_to '수정', edit_board_path(@board), class: 'btn btn-primary' %> |
+<%= link_to '홈으로', boards_path, class: 'btn btn-dark' %>

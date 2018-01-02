@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JsClass</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Board</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown01">
+            <% if user_signed_in? %>
+            <a class="dropdown-item"><%= current_user.email %></a>
+            <%= link_to 'Sign out', user_signout_path, class: 'dropdown-item', data: {method: :delete, confirm: "로그아웃 할꼬얌?"} %>
+            <% else %>
+            <%= link_to 'Sign in', user_signin_path, class: 'dropdown-item' %>
+            <%= link_to 'Sign up', user_signup_path, class: 'dropdown-item' %>
+            <% end %>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container" style="margin-top: 5rem !important;">
+    <% if flash[:notice] %>
+    <div class="alert alert-success" role="alert">
+      <%= flash[:notice] %>
+    </div>
+    <% end %>
+
+    <%= yield %> <!-- controller#action 에 해당하는 view 파일을 찾는다 -->
+  </div>
+  <%= yield :script %> <!-- content_for :script 를 찾는다 -->
+</body>
+</html>

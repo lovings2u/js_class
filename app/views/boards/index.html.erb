@@ -1,0 +1,45 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th width="15%">ID</th>
+      <th width="60%">제목</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @boards.each do |board| %>
+      <tr hoho="<%= board.id %>">
+        <td><%= board.id %></td>
+        <td class="title"><%= board.title %></td>
+        <td><%= link_to '보기', board, class: 'btn btn-primary' %></td>
+        <td><%= link_to '수정', edit_board_path(board), class: 'btn btn-success' %></td>
+        <td><%= link_to '삭제', board, class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to '새글쓰기', new_board_path, class: 'btn btn-dark' %>
+<a class='btn btn-warning' id='change-title'>제목바꾸기</a>
+<a class='btn btn-danger color-btn' haha="text-danger">빨강</a>
+<a class='btn btn-primary color-btn' haha="text-primary">파랑</a>
+<a class='btn btn-warning color-btn' haha="text-warning">노랑</a>
+
+<% content_for :script do %>
+<script>
+  // tr에 해당하는 부분을 click 하면
+  // ** '현재' click 한 부분의 id가 몇인지 파악해야함
+
+  // 페이지를 이동한다.
+  // ** location.href = '/boards/?';
+
+  // jquery
+
+</script>
+<script src="change_title.js"></script>
+<script src="change_color.js"></script>
+
+<% end %>
