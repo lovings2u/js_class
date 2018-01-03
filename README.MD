@@ -72,16 +72,22 @@ class SessionsController < ApplicationController
       redirect_to '/signin', notice: "이메일이 없거나, 비밀번호가 틀렸습니다."
     end
   end
-	
-  #로그아웃
+
+  # 로그아웃
+
   def signout
-    
+    session.delete(:user_id)
+    redirect_to '/', notice: "로그아웃 성공!"
   end
+
 end
 
 ```
 
+### yield, content_for
 
+- 내가 원하는 위치에서 `yield :namespace`
+- 내가 원하는 내용을 `content_for :namespace do ... end`
 
 ### Javascript
 
@@ -90,41 +96,48 @@ end
 - 이벤트 핸들러(function())
 
 
-
-### yield, content_for
-
-
-
-
-
-
-
-
-
-2.  이벤트, 이벤트 리스너, 이벤트 핸들러
+2. 이벤트, 이벤트 리스너, 이벤트 핸들러
 
 - 이벤트: 마우스 오버(mouseover)
 - 이벤트 리스너: onmouseover
 - 이벤트 핸들러: 복잡한 function()
 
 
+### jQuery
 
-목요일 오후 시간까지
+- CSS Selector에 의한 DOM 탐색 및 조작
 
-##### ajax(비동기 자바스크립트)
+  - parent, sibling을 통해 형제, 부모 DOM을 넘나들 수 있음
 
-- 좋아요(like) 넣다 뺏다
-- 댓글 등록
-- 댓글 삭제
-- 댓글 수정
-- 무한스크롤
-- 회원가입 할 때 중복체크(id)
+- 이벤트
 
-금요일에는?
+  - .click(.이벤트명), .on('click', function() {}) .on('이벤트명', 이벤트 핸들러)
 
-- bootstrap template(asset_pipeline)
+- AJAX(비동기 JS/XML)
 
+  - rails에서의 ajax
 
+  ```javascript
+  // 1. ajax 요청 만들기
+  $.ajax({
+    // ajax로 요청을 보냄 >> JS파일에 대한 요청
+    url: ,// 요청 보내는 url
+    method: , //http method
+    data: // data parameter
+  })
+  // 404 error
 
+  // 2. 요청 보내는 url에 대한 route설정
+  // member, collection
+  // config/routes.rb에서 설정
+  // 404 error
 
+  // 3. controller에서 route에서 설정한
+  // controller#action 만들어줌
+  // 500 error
 
+  // 4. action명과 같은 파일명을 가진 js.erb파일 만들어줌
+  // 오타가 없다면, 정상적으로 동작함
+  ```
+
+  ​

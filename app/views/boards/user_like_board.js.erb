@@ -1,0 +1,8 @@
+alert("좋아요 누름");
+$('.like').toggleClass('btn-outline-primary btn-primary');
+var like_count = parseInt($('#like-count').text());
+if(<%= @like.frozen? %>) { // 삭제했니?
+  $('#like-count').text(like_count - 1);
+} else { // 좋아요 눌렀늬?
+  $('#like-count').text(like_count + 1);
+}

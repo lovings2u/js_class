@@ -1,0 +1,11 @@
+// 5. 댓글을 보여주는 table의 tbody에 추가해줌
+alert('<%= @comment.contents %>');
+$('.comment-list').prepend(`
+  <tr>
+    <td><%= @comment.contents %></td>
+    <td></td>
+    <td><button class="btn btn-outline-danger"><i class="fas fa-trash-alt fa-spin"></i> 삭제</button></td>
+  </tr>
+  `);
+// 6. input 태그를 비워줌
+$('#comment-input').val('');
