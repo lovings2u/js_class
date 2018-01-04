@@ -6,5 +6,44 @@
   <input type="password" name="password" class="form-control" placeholder="Password">
   <label for="inputPassword" class="sr-only">Password Confirmation</label>
   <input type="password" name="password_confirmation" class="form-control" placeholder="Password Confirmation">
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+  <button class="btn btn-lg btn-primary btn-block" type="submit" disabled>Sign up</button>
+<% end %>
+
+<% content_for :script do %>
+<script>
+  var email = false;
+  var password = false;
+  function validation() {
+    console.log("email: " + email);
+    console.log("password: " + password);
+
+    if(email && password) {
+      $('button[type=submit]').removeAttr('disabled');
+    } else {
+      $('button[type=submit]').attr('disabled', 'disabled');
+    }
+  }
+  $(function() {
+    $('input[name=email]').on('change', function() {
+      var id = $(this).val();
+      $.ajax({
+        url: '/check_email',
+        method: 'POST',
+        data: {
+          email: id
+        }
+      })
+    })
+    $('.form-signin').on('change', 'input[name=password], input[name=password_confirmation]', function() {
+      if($('input[name=password_confirmation]').val() != $('input[name=password]').val()) {
+        alert("비밀번호를 다시 확인하세요!");
+        password = false;
+      } else {
+        alert("비밀번호가 일치합니다!");
+        password = true;
+      }
+      validation();
+    })
+  })
+</script>
 <% end %>

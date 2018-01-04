@@ -1,0 +1,9 @@
+alert("페이지 추가하셈");
+$('.boards').append(`
+  <% @boards.each do |board| %>
+  <tr class="board" data-id="<%= board.id %>">
+    <td><%= board.id %></td>
+    <td class="title"><%= board.title %></td>
+  </tr>
+  <% end %>
+  `)

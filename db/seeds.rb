@@ -5,8 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-User.create(email: "aa@aa.aa", password: "1234", password_confirmation: "1234")
-20.times do
+User.create(email: "aa@a.a", password: "1234", password_confirmation: "1234")
+1000.times do
   Board.create(
     title: Faker::Superhero.name,
     contents: Faker::Lorem.paragraphs.join.to_s,

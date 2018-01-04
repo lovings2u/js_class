@@ -24,14 +24,15 @@
 <table class="table">
   <thead>
     <tr>
-      <th>내용</th>
-      <th colspan='2'></th>
+      <th width="70%">내용</th>
+      <th width="15%"></th>
+      <th width="15%"></th>
     </tr>
   </thead>
   <tbody class="comment-list">
     <% @board.comments.reverse.each do |comment| %>
-    <tr>
-      <td><%= comment.contents %></td>
+    <tr id="comment-<%= comment.id %>">
+      <td class="comment" data-id="<%= comment.id %>"><%= comment.contents %></td>
       <td></td>
       <td><button class="btn btn-outline-danger delete-comment" data-id="<%= comment.id %>"><i class="fas fa-trash-alt fa-spin"></i> 삭제</button></td>
     </tr>
@@ -41,8 +42,10 @@
 
 <% content_for :script do %>
 <script>
-  $(function() {
-
+  function validation() {
+    console.log("heheheheheheh");
+  }
+  $(document).ready(function() {
     // 좋아요 버튼
     // 1. 좋아요 버튼을 눌렀을때
     $('.like').on('click', function() {
@@ -69,14 +72,46 @@
         }
       });
     });
-
-    $('.delete-comment').on('click', function() {
+    // 댓글 삭제하기
+    $('.comment-list').on('click', '.delete-comment', function() {
       var id = $(this).data('id');
       $.ajax({
-        url: '/boards/<%= @board.id %>/comments/' + id,
+        url: "/boards/<%= @board.id %>/comments/" + id,
         method: "DELETE"
-      });
+      })
     });
+
+    // 댓글 수정하기
+    // 1. 댓글 내용이 들어있는 td태그 부분을 누르면
+    $('.comment-list').on('click', '.comment', function() {
+      // 3. 수정 완료 버튼을 삭제버튼 옆에 추가한다.
+      if($(this).parents('.comment-list').find('.comment-form').length > 0) {
+        // 이미 열려있는 comment-form이 있다면
+        alert('이미 수정중인 comment가 있습니다.');
+        return false;
+      }
+      var text = $(this).text();
+      var id = $(this).data('id');
+      console.log(id);
+      $(this).siblings()[0].innerHTML = '<button class="btn btn-dark update-comment"><i class="fas fa-pencil-alt fa-spin"></i> 완료</button>';
+      // 2. 해당 부분을 댓글 내용이 들어있는 input 태그로 바꾸고
+      $(this).replaceWith(`<td class="edit-comment"><input class="form-control comment-form" value="${text}"><input class="comment-id" type="hidden" value="${id}"></td>`);
+    });
+    // 하나의 input 창이 열려있는 경우, 추가적인 input 창을 못열게
+
+    // 완료 버튼을 누르면 작성했던 내용이 서버로 가서 저장(update)
+    $('.comment-list').on('click', '.update-comment', function() {
+      // 1. input태그에 있는 내용물을 뽑아서 서버로 보냄
+      var text = $('.comment-form').val();
+      var id = $('.comment-id').val();
+      $.ajax({
+        url: '/boards/<%= @board.id %>/comments/' + id,
+        method: 'PATCH',
+        data: {
+          contents: text
+        }
+      })
+    })
   })
 </script>
 <% end %>
